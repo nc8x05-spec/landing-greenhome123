@@ -1,0 +1,505 @@
+
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Viên Đuổi Chuột – RatHome</title>
+<meta name="description" content="Viên Đuổi Chuột RatHome – an toàn, thiên nhiên, hiệu quả cho bếp, kho, vườn và ô tô." />
+<style>
+  :root{--accent:#2b8a3e;--accent-2:#60a86b;--muted:#6b7280;--bg:#f6fbf6;--card:#ffffff}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;line-height:1.5;background:var(--bg);color:#071422}
+  .container{max-width:1100px;margin:28px auto;padding:20px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0}
+  .logo{display:flex;gap:12px;align-items:center}
+  .mark{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px}
+  .brand-title{font-weight:800;font-size:16px}
+  .sub{font-size:13px;color:var(--muted)}
+  .cta-top{background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+  .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:16px}
+  h1{font-size:28px;margin:0 0 8px}
+  p.lead{color:var(--muted);margin:0 0 16px}
+  .badge{display:inline-block;background:#eaf7ea;color:var(--accent-2);padding:6px 12px;border-radius:999px;font-weight:700;margin-bottom:12px;font-size:13px}
+  .features{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+  .reason{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(7,20,34,0.06);text-align:center}
+  .reason svg{width:36px;height:36px;margin-bottom:8px}
+  .price-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 10px 28px rgba(7,20,34,0.06);text-align:center}
+  .price{font-size:26px;color:var(--accent);font-weight:800}
+  .btn{display:inline-block;background:var(--accent);color:#fff;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700}
+  .secondary{background:#fff;border:1px solid #e6e9ec;color:var(--accent);padding:10px 14px;border-radius:10px;text-decoration:none}
+
+  .how{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(7,20,34,0.04)}
+  table.specs td{padding:6px 8px}
+
+  /* Slider S3 */
+  .slider{position:relative;overflow:hidden;border-radius:12px}
+  .slides{display:flex;transition:transform 0.6s ease}
+  .slide{min-width:100%;flex-shrink:0}
+  .slide img{width:100%;height:360px;object-fit:cover;display:block}
+  .dots{display:flex;gap:8px;justify-content:center;margin-top:10px}
+  .dot{width:10px;height:10px;border-radius:50%;background:#d1d5db;cursor:pointer}
+  .dot.active{background:var(--accent)}
+
+  /* Messenger-style reviews */
+  .reviews{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+  .msg-row{display:flex;gap:8px;align-items:flex-end}
+  .avatar{width:36px;height:36px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-weight:700;color:#444}
+  .bubble{max-width:70%;padding:10px 12px;border-radius:16px;background:#f0f2f5;color:#071422;box-shadow:0 6px 12px rgba(7,20,34,0.04)}
+  .bubble.shop{background:linear-gradient(180deg,#e6f7ea,#ffffff);color:#06401a}
+  .bubble.small{font-size:13px}
+
+  footer{margin-top:28px;color:var(--muted);font-size:13px}
+
+  /* modal */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:none;align-items:center;justify-content:center}
+  .modal{background:#fff;padding:20px;border-radius:12px;max-width:420px;width:90%;text-align:center}
+  .close-btn{background:#eee;border:none;padding:8px 12px;border-radius:8px;margin-top:12px}
+
+  @media(max-width:920px){.hero{grid-template-columns:1fr} .features{grid-template-columns:repeat(2,1fr)} .how{grid-template-columns:1fr}}
+  @media(max-width:520px){.features{grid-template-columns:1fr} .slide img{height:240px}}
+
+/* FIX ảnh không bị che trong slide */
+.swiper-slide {
+    height: auto !important;
+}
+
+
+/* thu gọn slide */
+.reason-item {
+    padding: 12px 14px !important;
+}
+.reason-item .left-number {
+    font-size: 32px !important;
+    line-height: 38px !important;
+}
+.swiper-slide .col-6, 
+.swiper-slide img {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="mark">RH</div>
+        <div>
+          <div class="brand-title">Viên Đuổi Chuột – RatHome</div>
+          <div class="sub">Thiên nhiên • An toàn • Hiệu quả</div>
+        </div>
+      </div>
+      <a class="btn" href="#order" onclick="setTimeout(()=>document.getElementById('orderName').focus(), 200);">MUA NGAY</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <div class="badge">Giải pháp an toàn cho gia đình</div>
+          <h1>Viên Đuổi Chuột – RatHome</h1>
+          <p class="lead">Sản phẩm thiên nhiên, an toàn cho người và vật nuôi. Dùng cho nhà bếp, kho, vườn và ô tô.</p>
+          <!-- Slider S3 -->
+          <div class="slider" id="slider">
+            <div class="slides" id="slides">
+              <div class="slide"><img src="" alt="Hình sản phẩm 1"></div>
+              <div class="slide"><img src="" alt="Hình sản phẩm 2"></div>
+              <div class="slide"><img src="" alt="Hình sản phẩm 3"></div>
+            </div>
+          </div>
+          <div class="dots" id="dots" aria-hidden="false"></div>
+
+          <!-- CTA dưới slider -->
+          <div style="margin-top:12px;display:flex;gap:12px;align-items:center">
+            <a class="btn" href="#order" onclick="setTimeout(()=>document.getElementById('orderName').focus(), 100);">ĐẶT HÀNG NGAY - <span id="ctaPrice">129.000₫</span></a>
+            <a class="secondary" href="#how">Cách dùng</a>
+          </div>
+
+          <style>
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 20px;
+}
+.reason {
+  flex: 1 1 calc(50% - 10px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f9fafb;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+}
+.reason:hover {
+  transform: translateY(-3px);
+}
+.reason svg {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 6px;
+}
+.reason div:first-of-type {
+  font-weight: 700;
+  color: #1b4332;
+}
+.reason div:last-of-type {
+  color: #6c757d;
+  font-size: 13px;
+  margin-top: 6px;
+}
+/* Responsive cho màn nhỏ */
+@media (max-width: 600px) {
+  .reason {
+    flex: 1 1 100%;
+  }
+}
+<style>
+.features {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.reason {
+  text-align: left;
+}
+.reason div:first-child {
+  font-weight: 700;
+}
+.reason div:last-child {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+@keyframes fadePop{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+</style>
+
+<div class="features">
+  <div class="reason" title="Không độc hại">
+    <div>Không độc hại</div>
+    <div>An toàn cho gia đình và thú nuôi</div>
+  </div>
+
+  <div class="reason" title="Không cần bẫy">
+    <div>Không cần bẫy</div>
+    <div>Không phải dọn xác chuột, tiện lợi</div>
+  </div>
+
+  <div class="reason" title="Dùng đa nơi">
+    <div>Dùng cho nhiều nơi</div>
+    <div>Kho, bếp, vườn, ô tô đều dùng được</div>
+  </div>
+
+  <div class="reason" title="Tiết kiệm chi phí">
+    <div>Tiết kiệm chi phí</div>
+    <div>Rẻ hơn tiền sửa dây điện hoặc thiệt hại</div>
+  </div>
+</div>
+        <aside>
+          <div class="price-card">
+            <img src="Hình ảnh chờ" 
+           alt="Viên Đuổi Chuột GreenHome" style="width:100%;height:260px;object-fit:cover;border-radius:10px;margin-bottom:12px" />
+            <div style="font-size:13px;color:var(--muted)">Pack 60g</div>
+            <div class="price" id="sidePrice">129.000₫</div>
+            <div style="margin:10px 0;color:var(--muted)">Miễn phí vận chuyển đơn đầu tiên</div>
+            <a class="btn" href="#order" onclick="setTimeout(()=>document.getElementById('orderName').focus(), 100);"> Đặt hàng ngay</a>
+            <div style="font-size:13px;color:var(--muted);margin-top:8px">Giao hàng 2–4 ngày (HN/HCM)</div>
+          </div>
+        </aside>
+
+      </section>
+      <section id="how" class="how" style="margin-top:20px">
+        <div class="card">
+          <h3>Cách dùng</h3>
+          <ol>
+            <li>Đặt 1 viên ở góc bếp, dưới gầm tủ, kho hoặc cốp ô tô – nơi chuột thường xuyên xuất hiện.</li>
+            <li>Thay thế viên cũ sau 2–4 tuần để duy trì hiệu quả.</li>
+            <li>Kết hợp vệ sinh và bịt lỗ hổng để ngăn chặn nguồn thức ăn.</li>
+          </ol>
+          <h4 style="margin-top:12px">Lưu ý</h4>
+          <ul>
+            <li>Đặt tránh tầm với trẻ em và vật nuôi.</li>
+            <li>Không đặt trực tiếp lên thực phẩm.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Thông số</h3>
+          <table class="specs" style="width:100%;border-collapse:collapse">
+            <tr><td><strong>Số Lượng:</strong></td><td>Túi (10 viên)</td></tr>
+            <tr><td><strong>Hiệu quả:</strong></td><td>Sau 2–4 ngày (tuỳ mức độ)</td></tr>
+            <tr><td><strong>Thành phần:</strong></td><td>Hỗn hợp thảo mộc & phụ gia tự nhiên</td></tr>
+            <tr><td><strong>Sử dụng:</strong></td><td>Ô tô, Nhà bếp, Kho Bãi, Công xưởng</td></tr>
+          </table>
+        </div>
+      </section>
+      <section style="margin-top:22px">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start">
+          <div style="flex:1;min-width:300px">
+            <h3>Đánh giá khách hàng </h3>
+            <div class="card">
+              <div class="reviews">
+                <div class="msg-row"><div class="avatar">L</div><div class="bubble small">Anh ơi, để 2 viên trong kho 4 ngày rồi mà bớt phân chuột hẳn.</div></div>
+                <div class="msg-row" style="justify-content:flex-end"><div class="bubble shop small">Cảm ơn anh! Anh để 2 góc kho + 1 viên ở giữa là ổn, anh nhé.</div><div class="avatar">AD</div></div>
+                <div class="msg-row"><div class="avatar">M</div><div class="bubble small">Xe em gặm dây điện hoảng lắm, đặt 1 viên trong cốp và 1 viên dưới nắp capo thấy đỡ hẳn.</div></div>
+                <div class="msg-row" style="justify-content:flex-end"><div class="bubble shop small">Rất mừng khi nghe tin! Chú ý thay gói sau 3 tuần nhé.</div><div class="avatar">AD</div></div>
+                <div class="msg-row"><div class="avatar">N</div><div class="bubble small">Mùi dễ chịu hơn mấy loại khác, con nhỏ nhà em an toàn.</div></div>
+              </div>
+            </div>
+          </div>
+<div style="width:420px;max-width:100%">
+  <div class="card" style="padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);background:#fff">
+    <h3 style="margin-bottom:16px;text-align:center;color:#333">Đặt hàng nhanh</h3>
+      <div style="margin-bottom:8px">
+     <form id="orderForm" onsubmit="handleSubmit(event)">
+      <div style="margin-bottom:8px">
+        <label for="orderName">Tên*</label><br>
+        <input id="orderName" name="name" required
+               oninvalid="this.setCustomValidity('Vui lòng nhập tên của bạn')"
+               oninput="this.setCustomValidity('')"
+               style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ec">
+      </div>
+
+      <div style="margin-bottom:8px">
+        <label for="orderPhone">SĐT*</label><br>
+        <input id="orderPhone" name="phone" required
+               oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại của bạn')"
+               oninput="this.setCustomValidity('')"
+               style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ec">
+      </div>
+
+      <div style="margin-bottom:8px">
+        <label for="orderAddr">Địa chỉ giao hàng*</label><br>
+        <input id="orderAddr" name="address" required
+               oninvalid="this.setCustomValidity('Vui lòng nhập địa chỉ giao hàng của bạn')"
+               oninput="this.setCustomValidity('')"
+               style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ec">
+      </div>
+      <div style="margin-bottom:8px">
+        <label for="orderQty">Số lượng*</label><br>
+        <select id="orderQty" name="quantity" required style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ec" onchange="updatePrice()">
+          <option value="1">1 gói (10 viên)</option>
+          <option value="2">2 gói (20 viên)</option>
+          <option value="3">3 gói (30 viên)</option>
+          <option value="5">5 gói (50 viên)</option>
+          <option value="10">10 gói (100 viên)</option>
+        </select>
+      <button class="btn" type="submit" id="submitBtn" style="flex:1;padding:12px;background:#e63946;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer">
+        Đặt hàng - <span id="orderPriceDisplay">129.000₫</span>
+      </button>
+      <button type="button" onclick="callNow()" style="padding:12px 14px;border:1px solid #e6e9ec;border-radius:8px;background:#fff;cursor:pointer">
+        📞 Gọi đặt hàng
+      </button>
+    </div>
+  </form>
+</div>
+</div>
+<footer>
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div>© 2025 Viên Đuổi Chuột • RatHome. Địa chỉ: Hà Nội- HCM</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div style="font-size:13px;color:var(--muted)">Thanh toán:</div>
+      <div style="background:#fff;padding:6px 10px;border-radius:8px;border:1px solid #e6e9ec">COD</div>
+      <div style="background:#fff;padding:6px 10px;border-radius:8px;border:1px solid #e6e9ec">Momo</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function callNow() {
+    // Kiểm tra xem thiết bị có phải điện thoại không
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      // Nếu là điện thoại -> gọi ngay
+      window.location.href = 'tel:0823245686';
+    } else {
+      // Nếu là máy tính -> hiện thông báo
+      alert('💡 Thiết bị của bạn không hỗ trợ gọi điện trực tiếp.\nVui lòng gọi số: 0823 245 686 bằng điện thoại.');
+    }
+  }
+</script>
+  <!-- modal -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Đặt hàng thành công!</h3>
+      <p>Cám ơn bạn đã đặt hàng. CSKH sẽ gọi xác nhận trong vòng vài giờ.</p>
+      <button class="close-btn" onclick="closeModal()">Đóng</button>
+    </div>
+  </div>
+<script>
+// Slider logic S3 auto + dots (3 giây)
+(function(){
+  const slidesEl = document.getElementById('slides');
+  const dotsEl = document.getElementById('dots');
+  const slides = slidesEl.children;
+  let idx = 0;
+  const total = slides.length;
+  const interval = 4000; // 5s
+  let timer = null;
+ function renderDots(){
+    for(let i=0;i<total;i++){
+      const d = document.createElement('div');
+      d.className='dot'+(i===0?' active':'');
+      d.dataset.index = i;
+      d.addEventListener('click', ()=> { goTo(i); resetTimer(); });
+      dotsEl.appendChild(d);
+    }
+  }
+
+  function update(){
+    slidesEl.style.transform = 'translateX(' + (-idx*100) + '%)';
+    Array.from(dotsEl.children).forEach((d,i)=> d.classList.toggle('active', i===idx));
+  }
+
+  function goTo(i){ idx = i; update(); }
+  function next(){ idx = (idx+1) % total; update(); }
+  function resetTimer(){ clearInterval(timer); timer = setInterval(next, interval); }
+
+  renderDots();
+  update();
+  timer = setInterval(next, interval);
+
+  const slider = document.getElementById('slider');
+slider.addEventListener('touchstart', ()=> clearInterval(timer));
+slider.addEventListener('touchend', ()=> resetTimer());
+})();
+
+// Form submit + modal + cập nhật giá
+const scriptURL = 'https://script.google.com/macros/s/AKfycbwlR3PK6JiI_dL4Ub20etoRfAqnSSe7Z6JfEih5zw25aA7qMXLMhSH2zLgnWIUy7Zoehw/exec';
+const form = document.getElementById('orderForm');
+const btn = document.getElementById('submitBtn');
+
+function updatePrice() {
+  const priceMap = {1:129000,2:199000,3:249000,5:329000,10:499000};
+  const qty = parseInt(document.getElementById('orderQty').value);
+  const total = priceMap[qty] || 129000;
+  document.getElementById('orderPriceDisplay').textContent =
+    total.toLocaleString('vi-VN') + '₫';
+}
+
+function openModal() {
+  document.getElementById('modalBackdrop').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modalBackdrop').style.display = 'none';
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('orderName').value.trim();
+  const phone = document.getElementById('orderPhone').value.trim();
+  const address = document.getElementById('orderAddr').value.trim();
+  const quantity = document.getElementById('orderQty').value;
+
+  if (!name || !phone || !address) {
+    alert('⚠️ Vui lòng nhập đầy đủ thông tin!');
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Đang gửi...';
+
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('phone', phone);
+  formData.append('address', address);
+  formData.append('quantity', quantity);
+
+  try {
+  const res = await fetch(scriptURL, { method: 'POST', body: formData });
+
+  if (res.ok) {
+        openModal();
+        form.reset();
+  } else {
+    console.error('Lỗi phía server:', res.status, res.statusText);
+    alert('⚠️ Đặt hàng không thành công, vui lòng thử lại.');
+  }
+} catch (error) {
+  console.error('Lỗi kết nối hoặc fetch:', error);
+  alert('⚠️ Lỗi kết nối, vui lòng thử lại.');
+} finally {
+  btn.disabled = false;
+  btn.innerHTML = `Đặt hàng - <span id="orderPriceDisplay">129.000₫</span>`;
+}
+}
+let currentIndex = 0;
+const slides = document.querySelectorAll('.slide');
+const slidesContainer = document.getElementById('slides');
+setInterval(() => {
+  currentIndex = (currentIndex + 1) % slides.length;
+  slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+}, 3000);
+// Cập nhật giá ban đầu
+updatePrice();
+</script>
+<!-- Popup khách hàng -->
+<div id="customerPopup"></div>
+<script>
+const customers = [
+  "✅Ngọc Ân (xã Tân Triều, Thanh Trì, Hà Nội) vừa đặt 2 gói",
+  "✅Minh Hưng (phường Hải Châu 1, Đà Nẵng) vừa đặt 1 gói",
+  "✅Thu Hằng (phường Tân Định, Quận 1, TP.HCM) vừa mua 3 gói",
+  "✅Trần Tú vừa đặt 2 gói",
+  "✅Hương Trà Family (Nam Sơn, An Dương, Hải Phòng) vừa mua 1 gói",
+  "✅Minh Quân vừa mua 2 gói",
+  "✅Thu Trang (xã hy cương, Phú Thọ) vừa đặt 1 gói",
+  "✅Như Quỳnh (Đại Đồng, Tuyên Quang) vừa đặt 3 gói",
+  "✅Duy Thới (Vĩnh Long) vừa đặt 5 gói",
+  "✅Thảo Vy Garden (Q7, TP.HCM) vừa đặt 1 gói",
+  "✅Chị Hoài Thu vừa đặt 2 gói",
+  "✅A.Duy (Đà Nẵng) vừa mua 2 gói",
+  "✅Phương Thảo (phường Ninh Kiều, Cần Thơ) vừa đặt 3 gói",
+  "✅Hoa Mộc Lan (Cầu giấy, Hà Nội) vừa mua 1 gói"
+];
+
+function showCustomerPopup() {
+  const popup = document.getElementById("customerPopup");
+  const random = customers[Math.floor(Math.random() * customers.length)];
+  popup.textContent = random;
+  popup.style.display = "block";
+  setTimeout(() => popup.style.display = "none", 4000);
+}
+
+// Hiển thị popup sau mỗi 8–12 giây ngẫu nhiên
+setInterval(showCustomerPopup, Math.floor(8000 + Math.random() * 4000));
+</script>
+
+<style>
+/* Popup khách hàng góc trái dưới */
+#customerPopup {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #ffffff;
+  color: #111827;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: none;
+  z-index: 999999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+@keyframes fadePop {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+#customerPopup {
+  animation: fadePop 0.25s ease;
+}
+</body>
+</html>
